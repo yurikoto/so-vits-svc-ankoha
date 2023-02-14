@@ -164,6 +164,7 @@ class Svc(object):
         if torch.cuda.is_available():
             self.hubert_soft = self.hubert_soft.cuda()
         self.load_model()
+        self.widget = None
 
     def load_model(self):
         # 获取模型配置
@@ -195,6 +196,7 @@ class Svc(object):
             units = self.hubert_soft.units(source)
             use_time = time.time() - start
             print("hubert use time:{}".format(use_time))
+            self.widget.textBrowser.append("hubert use time:{}".format(use_time))
             return units
 
 
@@ -207,7 +209,8 @@ class Svc(object):
         f0_coarse, f0 = get_f0(source.cpu().numpy()[0], soft.shape[0]*2, tran)
         return soft, f0
 
-    def infer(self, speaker_id, tran, raw_path):
+    def infer(self, widget, speaker_id, tran, raw_path):
+        self.widget = widget
         if type(speaker_id) == str:
             speaker_id = self.spk2id[speaker_id]
         sid = torch.LongTensor([int(speaker_id)]).to(self.dev).unsqueeze(0)
@@ -224,6 +227,7 @@ class Svc(object):
             audio = self.net_g_ms.infer(x_tst, f0=f0, g=sid)[0,0].data.float()
             use_time = time.time() - start
             print("vits use time:{}".format(use_time))
+            widget.textBrowser.append("vits use time:{}".format(use_time))
         return audio, audio.shape[-1]
 
 

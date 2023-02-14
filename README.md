@@ -1,4 +1,18 @@
-# SoftVC VITS Singing Voice Conversion
+# SoftVC VITS Singing Voice Conversion - ankoha GUI
+
+## 运行GUI
+
+### 准备预训练模型
+直接在本项目根目录解压并覆盖模型包
+
+### 运行
+环境要求：python 3.9
+
+```bash
+pip3.9 install  -r requirements.txt
+python3.9 gui.py
+```
+
 ## English docs
 [英语资料](Eng_docs.md)
 
